@@ -52,5 +52,15 @@ services:
     ports:
       - "3306:3306"
 
+  redis:
+    build:
+      context: .
+      dockerfile: ./docker/redis/Dockerfile
+    image: challenge-redis
+    container_name: challenge-redis
+    volumes:
+      - redis:/data
+
 volumes:
   mysql:
+  redis:
