@@ -1,0 +1,56 @@
+version: "2"
+services:
+
+  app:
+    environment:
+      APP_DEBUG: ${APP_DEBUG}
+    build:
+      context: .
+      dockerfile: ./docker/app/Dockerfile
+    image: challenge-app
+    container_name: challenge-app
+    volumes:
+      - .:/var/www/app
+
+  worker:
+    environment:
+      DB_DATABASE: ${DB_DATABASE}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_HOST: ${DB_HOST}
+      DB_PASSWORD: ${DB_PASSWORD}
+      APP_DEBUG: ${APP_DEBUG}
+    image: challenge-app:latest
+    container_name: challenge-worker
+    volumes_from:
+      - app:rw
+    command: [php, artisan, "queue:work"]
+
+  nginx:
+    build:
+      context: .
+      dockerfile: ./docker/nginx/Dockerfile
+    image: challenge-nginx
+    container_name: challenge-nginx
+    volumes_from:
+      - app:rw
+    ports:
+      - "80:80"
+
+  mysql:
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+    build:
+      context: .
+      dockerfile: ./docker/mysql/Dockerfile
+    image: challenge-mysql
+    container_name: challenge-mysql
+    volumes:
+      - mysql:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+volumes:
+  mysql:
