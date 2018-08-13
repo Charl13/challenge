@@ -19,11 +19,13 @@ services:
       DB_HOST: ${DB_HOST}
       DB_PASSWORD: ${DB_PASSWORD}
       APP_DEBUG: ${APP_DEBUG}
-    image: challenge-app:latest
+    build:
+      context: .
+      dockerfile: ./docker/worker/Dockerfile
+    image: challenge-worker:latest
     container_name: challenge-worker
     volumes_from:
       - app:rw
-    command: [php, artisan, "queue:work"]
 
   nginx:
     build:
