@@ -4,7 +4,7 @@ FROM php:7-fpm-alpine
 #   - Zip - used by Composer.
 RUN apk add --no-cache --update zlib-dev
 
-RUN docker-php-ext-install zip
+RUN docker-php-ext-install zip pdo pdo_mysql
 
 # Install PHP dependency manager Composer.
 RUN php -r "copy('http://getcomposer.org/installer', '/tmp/composer-setup.php');"
