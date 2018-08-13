@@ -3,6 +3,10 @@ services:
 
   app:
     environment:
+      DB_DATABASE: ${DB_DATABASE}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_HOST: ${DB_HOST}
+      DB_PASSWORD: ${DB_PASSWORD}
       APP_DEBUG: ${APP_DEBUG}
     build:
       context: .
