@@ -41,5 +41,7 @@ RUN composer install --no-dev
 RUN chgrp -R 82 ./storage
 RUN chmod -R g+w ./storage
 
+RUN php artisan key:generate
+
 # Create volume used by other containers
 VOLUME /var/www/app
