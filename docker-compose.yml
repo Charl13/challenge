@@ -13,8 +13,6 @@ services:
       dockerfile: ./docker/app/Dockerfile
     image: challenge-app
     container_name: challenge-app
-    volumes:
-      - .:/var/www/app
 
   worker:
     environment:
