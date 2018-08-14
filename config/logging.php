@@ -76,6 +76,12 @@ return [
             'driver' => 'errorlog',
             'level' => 'debug',
         ],
+
+        'failed-user-imports' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/failed_user_imports.log'),
+            'level' => 'debug',
+        ],
     ],
 
 ];
