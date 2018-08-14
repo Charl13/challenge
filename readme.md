@@ -8,7 +8,6 @@ To get up and running fast:
 ```bash
 docker-compose up
 docker-compose exec php artisan migrate
-docker-compose exec php artisan key:generate
 ```
 **Note:** Be sure to copy the `.env` file before creating the docker images.
 ### 2. Upload challenge.json
