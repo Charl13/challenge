@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Bus\Dispatcher;
+use Illuminate\Contracts\Bus\Dispatcher as DispatcherContract;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,7 +15,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
     }
 
     /**
@@ -23,6 +24,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->bind(DispatcherContract::class, Dispatcher::class);
     }
 }
