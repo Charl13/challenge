@@ -9,6 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Log\Logger;
 use App\User;
+use Carbon\Carbon;
 
 class StoreNewUser implements ShouldQueue
 {
@@ -33,18 +34,30 @@ class StoreNewUser implements ShouldQueue
         $this->data = $data;
     }
 
+    protected function hasTargetAge(User $user)
+    {
+        $from = now()->subYears(65);
+        $to = now()->subYears(18);
+
+        return $user->date_of_birth->between($from, $to);
+    }
+
     /**
-     * Save new user.
+     * Save new user if user complice to target age
+     * or user as unknown age.
      *
      * @return void
      */
     public function handle(Logger $log)
     {
-        try {
-            $user = new User($this->data);
-            $user->save();
-        } catch (Throwable $e) {
-            $log->info($user->toJson());
+        $user = new User($this->data);
+
+        if (!$user->date_of_birth || $this->hasTargetAge($user)) {
+            try {
+                $user->save();
+            } catch (Throwable $e) {
+                $log->info($user->toJson());
+            }
         }
     }
 }
